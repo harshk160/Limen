@@ -14,11 +14,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.kotlinfoundation.koko.MainKt"
+        mainClass = "io.github.harshk160.limen.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.kotlinfoundation.koko"
+            packageName = "io.github.harshk160.limen"
             packageVersion = "1.0.0"
         }
     }

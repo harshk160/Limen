@@ -10,14 +10,14 @@ plugins {
 }
 
 android {
-    namespace = "com.kotlinfoundation.koko"
+    namespace = "io.github.harshk160.limen"
     compileSdk =
         libs.versions.android.compileSdk
             .get()
             .toInt()
 
     defaultConfig {
-        applicationId = "com.kotlinfoundation.koko"
+        applicationId = "io.github.harshk160.limen"
         minSdk =
             libs.versions.android.minSdk
                 .get()
