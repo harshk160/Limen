@@ -1,8 +1,5 @@
 package io.github.harshk160.limen.util
 
-import com.mmk.kmpnotifier.KMPNotifier
-import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
-import com.mmk.kmpnotifier.push.firebase.FirebasePush
 import io.github.harshk160.limen.data.source.featureflag.FeatureFlagManager
 import io.github.harshk160.limen.data.source.featureflag.NoImplFeatureFlagManager
 import io.github.harshk160.limen.data.source.local.DatabaseProvider
@@ -37,7 +34,6 @@ internal actual val platformModule: Module = module {
 }
 
 internal actual fun onApplicationStartPlatformSpecific() {
-    KMPNotifier.initialize(NotificationPlatformConfiguration.Desktop(), FirebasePush)
     FileKit.init("io.github.harshk160.limen")
 }
 

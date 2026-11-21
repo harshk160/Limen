@@ -1,103 +1,55 @@
-@file:OptIn(ExperimentalTime::class)
-
 package io.github.harshk160.limen.data.repository
 
-import com.mmk.kmpauth.core.KMPAuth
-import com.mmk.kmpauth.core.auth.KMPAuthUser
 import io.github.harshk160.limen.data.BackgroundExecutor
 import io.github.harshk160.limen.data.source.preferences.UserPreferences
-import io.github.harshk160.limen.data.source.preferences.UserPreferences.Keys.KEY_FIRST_TIME_USER
 import io.github.harshk160.limen.domain.exceptions.UnAuthorizedException
 import io.github.harshk160.limen.domain.model.User
 import io.github.harshk160.limen.util.ApplicationScope
-import io.github.harshk160.limen.util.logging.AppLogger
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 /**
- * Owns the authenticated user. Exposes [currentUser] as a hot flow that merges the auth state from
- * [KMPAuth] with premium status from [SubscriptionRepository], and signs guests in anonymously on
- * first launch. Emits `Result.failure(UnAuthorizedException)` when signed out.
+ * Owns the authenticated user session. Emits `Result.failure(UnAuthorizedException)` when signed out.
  *
- * Auth is handled entirely by [KMPAuth] (Firebase backend) — cross-platform, including desktop and web.
+ * Koko's Firebase/KMPAuth anonymous sign-in is disabled; Limen's email/password + JWT auth plugs in here.
  */
 class UserRepository(
-    private val subscriptionRepository: SubscriptionRepository,
-    private val userPreferences: UserPreferences,
+    @Suppress("unused") private val subscriptionRepository: SubscriptionRepository,
+    @Suppress("unused") private val userPreferences: UserPreferences,
     private val backgroundExecutor: BackgroundExecutor = BackgroundExecutor.IO,
     private val applicationScope: ApplicationScope,
 ) {
 
-    init {
-        signInAnonymouslyIfNecessary()
+    // TODO(T2.4/T4.1): replace with Limen session/JWT auth
+    private val _currentUser = MutableStateFlow<Result<User>>(Result.failure(UnAuthorizedException()))
+
+    val currentUser: SharedFlow<Result<User>> = _currentUser.asStateFlow()
+
+    fun signInAnonymouslyIfNecessary(): Job = applicationScope.launch {
+        // Intentionally disabled: Limen does not use Firebase anonymous sign-in.
     }
 
-    private val authTrigger = MutableStateFlow(Clock.System.now().toEpochMilliseconds())
-
-    val currentUser: SharedFlow<Result<User>> =
-        combine(authTrigger, KMPAuth.currentUserFlow) { _, currentUser -> currentUser }
-            .map { currentUser ->
-                AppLogger.d("Current user is updated: $currentUser")
-                if (currentUser == null) {
-                    Result.failure(UnAuthorizedException())
-                } else {
-                    subscriptionRepository.login(userId = currentUser.uid)
-                    val user = currentUser.asUser()
-                        .copy(hasPremiumAccess = subscriptionRepository.hasPremiumAccess())
-                    Result.success(user)
-                }
-            }.shareIn(applicationScope, SharingStarted.Eagerly, 1)
-
-    fun signInAnonymouslyIfNecessary() = applicationScope.launch {
-        backgroundExecutor.execute {
-            val isFirstTimeUser = userPreferences.getBoolean(KEY_FIRST_TIME_USER, true)
-            if (KMPAuth.currentUser() == null && isFirstTimeUser) {
-                KMPAuth.signInAnonymously().getOrThrow()
-                userPreferences.putBoolean(KEY_FIRST_TIME_USER, false)
-                AppLogger.d("Signed in anonymously")
-            }
-            Result.success(Unit)
-        }.onFailure {
-            AppLogger.e("signInAnonymouslyIfNecessary exception ${it.message}")
-        }
-    }
-
-    // This is added because when linking anonymous account with google account, firebase listener is not triggered
     fun onSuccessfulOauthSign() {
-        applicationScope.launch { authTrigger.emit(Clock.System.now().toEpochMilliseconds()) }
+        // TODO(T2.4/T4.1): replace with Limen session/JWT auth
     }
 
     suspend fun continueAsGuest(): Result<Unit> = backgroundExecutor.execute {
-        if (KMPAuth.currentUser() == null) {
-            KMPAuth.signInAnonymously().getOrThrow()
-        }
+        // TODO(T2.4/T4.1): replace with Limen session/JWT auth
+        Result.failure(UnAuthorizedException())
+    }
+
+    suspend fun logOut(): Result<Unit> = backgroundExecutor.execute {
+        // TODO(T2.4/T4.1): replace with Limen session/JWT auth
+        _currentUser.value = Result.failure(UnAuthorizedException())
         Result.success(Unit)
     }
 
-    suspend fun logOut() = backgroundExecutor.execute {
-        subscriptionRepository.logOut()
-        KMPAuth.signOut()
+    suspend fun deleteAccount(): Result<Unit> = backgroundExecutor.execute {
+        // TODO(T2.4/T4.1): replace with Limen session/JWT auth
+        _currentUser.value = Result.failure(UnAuthorizedException())
         Result.success(Unit)
     }
-
-    suspend fun deleteAccount() = backgroundExecutor.execute {
-        KMPAuth.deleteAccount().getOrThrow()
-        logOut()
-        Result.success(Unit)
-    }
-
-    private fun KMPAuthUser.asUser(): User = User(
-        id = uid,
-        isAnonymous = isAnonymous,
-        email = email,
-        displayName = displayName,
-        photoUrl = photoUrl,
-    )
 }
