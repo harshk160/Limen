@@ -27,8 +27,6 @@ jobs:
 
       - name: Setup environment
         uses: ./.github/actions/setup-gradle
-        with:
-          gradle-cache-encryption-key: ${{ secrets.GRADLE_CACHE_ENCRYPTION_KEY }}
 
       # Keys come from local.properties.example, so adding one there needs no
       # workflow edit. These checks never ship a binary, so empty values are
@@ -61,6 +59,9 @@ jobs:
             MobileApp/shared/build/reports/tests/
             MobileApp/shared/build/test-results/
           retention-days: 7
+
+      - name: Compile Desktop Kotlin sources
+        run: ./gradlew :desktopApp:compileKotlin
 
       - name: Build Android debug APK
         run: ./gradlew :androidApp:assembleDebug
