@@ -1,8 +1,8 @@
 package io.github.harshk160.limen.subscription.revenuecat
 
+import com.revenuecat.purchases.kmp.models.CustomerInfo
 import io.github.harshk160.limen.subscription.api.GrantedAccess
 import io.github.harshk160.limen.subscription.api.SubscriptionProviderUser
-import com.revenuecat.purchases.kmp.models.CustomerInfo
 
 internal fun CustomerInfo.asSubscriptionProviderUser(): SubscriptionProviderUser {
     val grantedAccesses =

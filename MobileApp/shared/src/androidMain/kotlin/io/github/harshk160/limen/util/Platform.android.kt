@@ -4,6 +4,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
+import com.mmk.kmpnotifier.KMPNotifier
+import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
+import com.mmk.kmpnotifier.push.firebase.FirebasePush
 import io.github.harshk160.limen.common.BuildConfig
 import io.github.harshk160.limen.data.source.featureflag.FeatureFlagManager
 import io.github.harshk160.limen.data.source.featureflag.FeatureFlagManagerImpl
@@ -19,9 +22,6 @@ import io.github.harshk160.limen.util.analytics.Analytics
 import io.github.harshk160.limen.util.analytics.FirebaseAnalyticsImpl
 import io.github.harshk160.limen.util.file.FileManager
 import io.github.harshk160.limen.util.file.FileManagerImpl
-import com.mmk.kmpnotifier.KMPNotifier
-import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
-import com.mmk.kmpnotifier.push.firebase.FirebasePush
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module

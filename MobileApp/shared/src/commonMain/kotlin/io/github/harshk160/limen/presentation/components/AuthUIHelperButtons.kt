@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.mmk.kmpauth.apple.rememberAppleAuthState
+import com.mmk.kmpauth.core.auth.KMPAuthUser
+import com.mmk.kmpauth.google.rememberGoogleAuthState
 import io.github.harshk160.limen.designsystem.components.AppleSignInButton
 import io.github.harshk160.limen.designsystem.components.GoogleSignInButton
 import io.github.harshk160.limen.designsystem.generated.resources.UiRes
@@ -25,9 +28,6 @@ import io.github.harshk160.limen.domain.model.AuthProvider
 import io.github.harshk160.limen.util.Platform
 import io.github.harshk160.limen.util.getPlatform
 import io.github.harshk160.limen.util.logging.AppLogger
-import com.mmk.kmpauth.apple.rememberAppleAuthState
-import com.mmk.kmpauth.core.auth.KMPAuthUser
-import com.mmk.kmpauth.google.rememberGoogleAuthState
 
 @Composable
 fun AuthUIHelperButtons(

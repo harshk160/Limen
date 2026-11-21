@@ -2,6 +2,8 @@
 
 package io.github.harshk160.limen.data.repository
 
+import com.mmk.kmpauth.core.KMPAuth
+import com.mmk.kmpauth.core.auth.KMPAuthUser
 import io.github.harshk160.limen.data.BackgroundExecutor
 import io.github.harshk160.limen.data.source.preferences.UserPreferences
 import io.github.harshk160.limen.data.source.preferences.UserPreferences.Keys.KEY_FIRST_TIME_USER
@@ -9,8 +11,6 @@ import io.github.harshk160.limen.domain.exceptions.UnAuthorizedException
 import io.github.harshk160.limen.domain.model.User
 import io.github.harshk160.limen.util.ApplicationScope
 import io.github.harshk160.limen.util.logging.AppLogger
-import com.mmk.kmpauth.core.KMPAuth
-import com.mmk.kmpauth.core.auth.KMPAuthUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted

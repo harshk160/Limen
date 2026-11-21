@@ -2,10 +2,10 @@ package io.github.harshk160.limen.presentation.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mmk.kmpauth.core.auth.KMPAuthRecentLoginRequiredException
 import io.github.harshk160.limen.data.repository.UserRepository
 import io.github.harshk160.limen.domain.exceptions.UnAuthorizedException
 import io.github.harshk160.limen.util.logging.AppLogger
-import com.mmk.kmpauth.core.auth.KMPAuthRecentLoginRequiredException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

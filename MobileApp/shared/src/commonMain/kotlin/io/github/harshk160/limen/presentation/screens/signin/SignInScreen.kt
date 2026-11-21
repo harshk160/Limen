@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mmk.kmpauth.core.auth.KMPAuthUserCollisionException
 import io.github.harshk160.limen.data.repository.UserRepository
 import io.github.harshk160.limen.designsystem.components.AgreePrivacyPolicyTermsConditionsText
 import io.github.harshk160.limen.designsystem.components.AppButton
@@ -59,7 +60,6 @@ import io.github.harshk160.limen.root.AppConfiguration
 import io.github.harshk160.limen.root.AppGlobalUiState
 import io.github.harshk160.limen.util.UiMessage
 import io.github.harshk160.limen.util.logging.AppLogger
-import com.mmk.kmpauth.core.auth.KMPAuthUserCollisionException
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
